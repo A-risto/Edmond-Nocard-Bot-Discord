@@ -188,5 +188,5 @@ async def on_raw_reaction_remove(payload):
     if emoji == "🍔":
         print("Grade enlevé ")
 
-token = "OTQ1NzMxMTg5NDI2MjQxNTQ2.YhUazg.986DfqBPyppnKXdzUbyjVCUGFcA"
+token = "TOKEN"
 bot.run(token)
