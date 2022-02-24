@@ -2,12 +2,12 @@ from discord.ext import commands
 import discord
 intents = discord.Intents.default()
 intents.members = True
-bot = commands.Bot(command_prefix="?", intents=intents)
+bot = commands.Bot(command_prefix="?", intents=intents, help_command=None)
 
 @bot.event
 async def on_ready():
     print("Bot prêt...")
-    await bot.change_presence(activity=discord.Game("?commande"))
+    await bot.change_presence(activity=discord.Game("?help"))
 @bot.command()
 async def info(ctx):
     server = ctx.guild
@@ -110,57 +110,57 @@ async def on_raw_reaction_add(payload):
     role_latin = guild.get_role(929756586543566919)
     role_grec = guild.get_role(929756308092096522)
     message = payload.message_id
-    print(type(message))
-    print(message)
-    if emoji =="🇦" and message == 888414703754297375-945968620935192607:
+    channel = payload.channel_id
+    if emoji =="🇦" and message == 945968620935192607 and channel == 888414703754297375:
         await member.add_roles(role_3eA)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                Le rôle 3eA vous a été ajouté !
                """)
         await member.send(embed=embed)
-    if emoji == "🇨" and message == 945968620935192607:
+    if emoji == "🇨" and message == 945968620935192607 and channel == 888414703754297375:
         await member.add_roles(role_3eC)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                Le rôle 3eC vous a été ajouté !
                """)
         await member.send(embed=embed)
-    if emoji == "🇩" and message == 945968620935192607:
+    if emoji == "🇩" and message == 945968620935192607 and channel == 888414703754297375:
         await member.add_roles(role_3eD)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                Le rôle 3eD vous a été ajouté !
                """)
         await member.send(embed=embed)
-    if emoji == "🇧" and message == 945968620935192607:
+    if emoji == "🇧" and message == 945968620935192607 and channel == 888414703754297375:
         await member.add_roles(role_3eB)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                Le rôle 3eB vous a été ajouté !
                """)
         await member.send(embed=embed)
-    if emoji =="❎":
+    if emoji == "❎" and message == 945968620935192607 and channel == 888414703754297375:
+        print("ok")
         await member.add_roles(hors_college)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                Le rôle 'Hors-collège' vous a été ajouté !
                """)
         await member.send(embed=embed)
-    if emoji == "🇪🇸":
+    if emoji == "🇪🇸" and channel == 888414703754297375:
         await member.add_roles(role_espagnol)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                        Le rôle 'Espagnol' vous a été ajouté !
                        """)
         await member.send(embed=embed)
-    if emoji == "🇮🇹":
+    if emoji == "🇮🇹" and channel == 888414703754297375:
         await member.add_roles(role_italien)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                                Le rôle 'italien' vous a été ajouté !
                                """)
         await member.send(embed=embed)
-    if emoji == "🔤":
+    if emoji == "🔤" and channel == 888414703754297375:
         await member.add_roles(role_latin)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                                        Le rôle 'latin' vous a été ajouté !
                                        """)
         await member.send(embed=embed)
-    if emoji == "🇬🇷":
+    if emoji == "🇬🇷" and channel == 888414703754297375:
         await member.add_roles(role_grec)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                                                Le rôle 'grec' vous a été ajouté !
@@ -190,7 +190,7 @@ async def on_raw_reaction_remove(payload):
 
 
 @bot.command()
-async def commande(ctx):
+async def help(ctx):
     embed = discord.Embed(title="__Commandes du bot : __", description="""
     ?info = donne des informations sur le serveur.
 
@@ -217,5 +217,5 @@ async def commande(ctx):
     embed.set_footer(text="Les prochaines commandes arrivent bientôt tkt")
     await ctx.send(embed=embed)
 
-token = "TOKEN"
-bot.run(token)
+TOKEN = 'TOKEN'
+bot.run(TOKEN)
