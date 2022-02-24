@@ -22,11 +22,10 @@ async def info(ctx):
     message = f"Le serveur **{serverName}** contient **{numberOfPerson}** personnes ! \nLa description du serveur est {serverDescription}. \nCe serveur possède {numberOfTextChannels} salons écrit et {numberOfVoiceChannels} salon vocaux."
     await ctx.send(message)
 
-
 @bot.command()
 @commands.has_permissions(ban_members = True)
 async def ban(ctx, user : discord.User, *, reason = "Aucune raison n'a été donné"):
-    #await ctx.guild.ban(user, reason = reason)
+    await ctx.guild.ban(user, reason = reason)
     embed = discord.Embed(title = "**Banissement**", description = "Un modérateur a frappé !", color=0xfa8072)
     embed.set_author(name = ctx.author.name, icon_url = ctx.author.avatar_url)
     embed.set_thumbnail(url = "https://discordemoji.com/assets/emoji/BanneHammer.png")
@@ -201,7 +200,6 @@ async def help(ctx):
 
     ?regles = montre les règles du serveur.
 
-
     """, url="https://github.com/A-risto/Edmond-Nocard-Bot-Discord/blob/main/main.py")
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
     embed.set_thumbnail(url="https://lachroniquefacile.fr/wp-content/uploads/2018/07/%EF%BC%9F.png")
@@ -217,6 +215,9 @@ async def help(ctx):
 
     ?tempmute <@utilisateur> = Mute l'utilisateur pour une certaine durée (à spécifier)
     """, inline=False)
+    embed.add_field(name="'__Fun'commandes :__", value="""
+    ?wanted <montant de la prime> <@de l'utilisateur> <message qui accompagne la prime>
+    """)
     embed.set_footer(text="Les prochaines commandes arrivent bientôt tkt")
     await ctx.send(embed=embed)
 
@@ -240,5 +241,29 @@ async def wanted(ctx, prix, user: discord.Member = None, *message):
     img.save("txt.png")
     await ctx.send(file=discord.File('txt.png'))
     os.remove('txt.png')
-token = 'TOKEN
+
+async def getMutedRole(ctx):
+    roles = ctx.guild.roles
+    for role in roles:
+        if role.name == "Muted":
+            return role
+
+
+@bot.command()
+async def mute(ctx, member: discord.Member, *, reason="Aucune raison n'a été renseigné"):
+    mutedRole = await getMutedRole(ctx)
+    await member.add_roles(mutedRole, reason=reason)
+    embed = discord.Embed(title="", description=f"le membre {member.mention} a été mute\n\nRaison : {reason}")
+    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+    await ctx.send(embed=embed)
+
+
+@bot.command()
+async def unmute(ctx, member: discord.Member):
+    mutedRole = await getMutedRole(ctx)
+    await member.remove_roles(mutedRole)
+    embed = discord.Embed(title="", description=f"Le membre {member.mention} a été unmute")
+    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+    await ctx.send(embed=embed)
+token = 'TOKEN'
 bot.run(token)
