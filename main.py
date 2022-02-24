@@ -1,5 +1,8 @@
 from discord.ext import commands
 import discord
+from PIL import Image, ImageFont, ImageDraw
+from io import BytesIO
+import os
 intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix="?", intents=intents, help_command=None)
@@ -217,5 +220,25 @@ async def help(ctx):
     embed.set_footer(text="Les prochaines commandes arrivent bientôt tkt")
     await ctx.send(embed=embed)
 
-TOKEN = 'TOKEN'
-bot.run(TOKEN)
+@bot.command()
+async def wanted(ctx, prix, user: discord.Member = None, *message):
+    if message == None:
+        txt = " "
+    else:
+        txt = " ".join(message)
+    img = Image.open('Screenshot 2022-02-24 15.19.32 (1).jpg')
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.truetype("BERNHC.TTF", 40)
+    font_prime = ImageFont.truetype("BERNHC.TTF", 60 )
+    asset = user.avatar_url_as(size=128)
+    data = BytesIO(await asset.read())
+    pfp = Image.open(data)
+    pfp = pfp.resize((350, 350))
+    draw.text((50, 730), txt, (0,0,0), font=font)
+    draw.text((60, 660), ("$"+str(prix)), (0,0,0), font=font_prime)
+    img.paste(pfp, (120, 235))
+    img.save("txt.png")
+    await ctx.send(file=discord.File('txt.png'))
+    os.remove('txt.png')
+token = 'TOKEN
+bot.run(token)
