@@ -6,10 +6,8 @@ bot = commands.Bot(command_prefix="?", intents=intents)
 
 @bot.event
 async def on_ready():
-    print("Ready !")
-    await bot.change_presence(activity=discord.Game("encore en dev j'ai pas trop le temps là"))
-
-
+    print("Bot prêt...")
+    await bot.change_presence(activity=discord.Game("?commande"))
 @bot.command()
 async def info(ctx):
     server = ctx.guild
@@ -79,7 +77,6 @@ async def regles(ctx):
     3. J'ai pas finit de faire les règles mais tkt ça arrive tu sais cb de temps ça me prend de faire ce bot hein ? ba bcp je fais tout à la main ok donc si t'es pas content fait le à ma place
     """)
 
-
 @bot.command()
 @commands.has_permissions(administrator=True)
 async def classe(ctx):
@@ -112,25 +109,28 @@ async def on_raw_reaction_add(payload):
     role_italien = guild.get_role(918575465436950578)
     role_latin = guild.get_role(929756586543566919)
     role_grec = guild.get_role(929756308092096522)
-    if emoji =="🇦":
+    message = payload.message_id
+    print(type(message))
+    print(message)
+    if emoji =="🇦" and message == 888414703754297375-945968620935192607:
         await member.add_roles(role_3eA)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                Le rôle 3eA vous a été ajouté !
                """)
         await member.send(embed=embed)
-    if emoji == "🇨":
+    if emoji == "🇨" and message == 945968620935192607:
         await member.add_roles(role_3eC)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                Le rôle 3eC vous a été ajouté !
                """)
         await member.send(embed=embed)
-    if emoji == "🇩":
+    if emoji == "🇩" and message == 945968620935192607:
         await member.add_roles(role_3eD)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                Le rôle 3eD vous a été ajouté !
                """)
         await member.send(embed=embed)
-    if emoji == "🇧":
+    if emoji == "🇧" and message == 945968620935192607:
         await member.add_roles(role_3eB)
         embed = discord.Embed(title="From **3e-Serveur**", description="""
                Le rôle 3eB vous a été ajouté !
@@ -187,6 +187,35 @@ async def on_raw_reaction_remove(payload):
     emoji = payload.emoji.name
     if emoji == "🍔":
         print("Grade enlevé ")
+
+
+@bot.command()
+async def commande(ctx):
+    embed = discord.Embed(title="__Commandes du bot : __", description="""
+    ?info = donne des informations sur le serveur.
+
+    ?clear <nombre de message> = efface le nombre de message donn.
+
+    ?regles = montre les règles du serveur.
+
+
+    """, url="https://github.com/A-risto/Edmond-Nocard-Bot-Discord/blob/main/main.py")
+    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+    embed.set_thumbnail(url="https://lachroniquefacile.fr/wp-content/uploads/2018/07/%EF%BC%9F.png")
+    embed.add_field(name="__Admins commandes :__ ", value="""
+
+    ?ban <@utilisateur> = Ban l'utilisateur (vous pouvez spécifier une raison)
+
+    ?unban <@utilisateur> = Debann l'utilisateur
+
+    ?kick <@utilisateur> = Expulse l'utilisateur (vous pouvez spécifier une raison)
+
+    ?mute <@utilisateur> = Mute l'utilisateur (vous pouvez spécifier une raison)
+
+    ?tempmute <@utilisateur> = Mute l'utilisateur pour une certaine durée (à spécifier)
+    """, inline=False)
+    embed.set_footer(text="Les prochaines commandes arrivent bientôt tkt")
+    await ctx.send(embed=embed)
 
 token = "TOKEN"
 bot.run(token)
