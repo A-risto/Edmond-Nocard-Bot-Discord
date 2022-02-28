@@ -452,7 +452,7 @@ async def on_voice_state_update(member, before, after):
     if member.guild.id == 888163341174992966:
         channel = after.channel
         try:
-            if before.channel.members == [] and not before.channel.id == 947804187926863902:
+            if before.channel.members == [] and not before.channel.id == 947804187926863902 and not before.channel.id == 947832541660983306:
                 if before.channel.category_id == 888163341174992968:
                     await before.channel.delete()
         except:
@@ -461,7 +461,7 @@ async def on_voice_state_update(member, before, after):
         if channel.id == 947804187926863902:
             guild = after.channel.guild
             private_channels = discord.utils.get(guild.categories, id=888163341174992968)
-            voice_channel = await guild.create_voice_channel(member.name, overwrites=None, category=private_channels)
+            voice_channel = await guild.create_voice_channel("Salon de "+member.name, overwrites=None, category=private_channels)
             await member.move_to(voice_channel)
             await voice_channel.set_permissions(member, connect=True, speak=True, move_members=True, manage_channels=True, view_channel=True)
 
