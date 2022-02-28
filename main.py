@@ -3,6 +3,7 @@ import discord
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 import os
+import random
 
 intents = discord.Intents.default()
 intents.members = True
@@ -18,12 +19,14 @@ async def on_ready():
 @bot.command()
 async def info(ctx):
     server = ctx.guild
-    numberOfTextChannels = len(server.text_channels)
-    numberOfVoiceChannels = len(server.voice_channels)
-    serverDescription = server.description
-    numberOfPerson = server.member_count
-    serverName = server.name
-    message = f"Le serveur **{serverName}** contient **{numberOfPerson}** personnes ! \nLa description du serveur est {serverDescription}. \nCe serveur possède {numberOfTextChannels} salons écrit et {numberOfVoiceChannels} salon vocaux."
+    nb_txt_channel = len(server.text_channels)
+    nb_voice_channel = len(server.voice_channels)
+    serveur_description = server.description
+    nb_personne = server.member_count
+    nom_server = server.name
+    message = f"Le serveur **{nom_server}** contient **{nb_personne}** personnes !" \
+              f" \nLa description du serveur est {serveur_description}. " \
+              f"\nCe serveur possède {nb_txt_channel} salons écrit et {nb_voice_channel} salon vocaux."
     await ctx.send(message)
 
 
@@ -45,10 +48,10 @@ async def ban(ctx, user: discord.User, *, reason="Aucune raison n'a été donné
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, user, *reason):
     reason = " ".join(reason)
-    userName, userId = user.split("#")
-    bannedUsers = await ctx.guild.bans()
-    for i in bannedUsers:
-        if i.user.name == userName and i.user.discriminator == userId:
+    user_name, user_id = user.split("#")
+    ban_user = await ctx.guild.bans()
+    for i in ban_user:
+        if i.user.name == user_name and i.user.discriminator == user_id:
             await ctx.guild.unban(i.user, reason=reason)
             await ctx.send(f"{user} à été unban.")
             return
@@ -70,20 +73,12 @@ async def kick(ctx, user: discord.User, reason="aucune raison n'a été donné")
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def clear(ctx, nombre: int):
     messages = await ctx.channel.history(limit=nombre + 1).flatten()
     for message in messages:
         await message.delete()
     await ctx.send(f"{nombre} message ont été supprimé ! ")
-
-
-@bot.command()
-async def regles(ctx):
-    await ctx.send(""""
-    1. Aucune discrimination, forme de racisme, sexisme etc ne sera accepté
-    2. Le droit à la vie privé doit être respecté
-    3. J'ai pas finit de faire les règles mais tkt ça arrive tu sais cb de temps ça me prend de faire ce bot hein ? ba bcp je fais tout à la main ok donc si t'es pas content fait le à ma place
-    """)
 
 
 @bot.command()
@@ -250,6 +245,7 @@ async def help(ctx):
     """, inline=False)
     embed.add_field(name="'__Fun'commandes :__", value="""
     ?wanted <montant de la prime> <@de l'utilisateur> <message qui accompagne la prime>
+    ?jaccepte <@ de l'utilisateur> : accepte la demande d'octogone. Le gagnant sera désigné au hasard.
     """)
     embed.set_footer(text="Les prochaines commandes arrivent bientôt tkt")
     await ctx.send(embed=embed)
@@ -261,10 +257,10 @@ async def wanted(ctx, prix, user: discord.Member = None, *message):
         txt = " "
     else:
         txt = " ".join(message)
-    img = Image.open('Screenshot 2022-02-24 15.19.32 (1).jpg')
+    img = Image.open('src/Screenshot 2022-02-24 15.19.32 (1).jpg')
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("BERNHC.TTF", 40)
-    font_prime = ImageFont.truetype("BERNHC.TTF", 60)
+    font = ImageFont.truetype("src/BERNHC.TTF", 30)
+    font_prime = ImageFont.truetype("src/BERNHC.TTF", 60)
     asset = user.avatar_url_as(size=128)
     data = BytesIO(await asset.read())
     pfp = Image.open(data)
@@ -285,15 +281,18 @@ async def getMutedRole(ctx):
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def mute(ctx, member: discord.Member, *, reason="Aucune raison n'a été renseigné"):
     mutedRole = await getMutedRole(ctx)
     await member.add_roles(mutedRole, reason=reason)
     embed = discord.Embed(title="", description=f"le membre {member.mention} a été mute\n\nRaison : {reason}")
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+    embed.set_thumbnail(url="https://media.discordapp.net/attachments/945963368441843727/947233844094988338/stfu.png")
     await ctx.send(embed=embed)
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def unmute(ctx, member: discord.Member):
     mutedRole = await getMutedRole(ctx)
     await member.remove_roles(mutedRole)
@@ -306,26 +305,32 @@ async def unmute(ctx, member: discord.Member):
 async def ping(ctx):
     await ctx.send("Pong !")
 
+
 @bot.event
 async def on_member_join(member):
-    salon = 945965595554381835
-    embed = discord.Embed(title="__Nouveau membre :__", description=f"Bienvenue {member.mention} sur le serveur ! Tu peux prendre tes rôles dans le salon #Classe-LV2 !")
-    embed.set_thumbnail(url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
-    channel = member.guild.get_channel(945963368441843727)
+    embed = discord.Embed(title="__Nouveau membre :__",
+                          description=f"Bienvenue {member.mention} sur le serveur ! Tu peux prendre tes rôles dans le salon #Classe-LV2 !")
+    embed.set_thumbnail(
+        url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+    channel = member.guild.get_channel(888163341174992970)
     await channel.send(embed=embed)
+
 
 @bot.event
 async def on_member_remove(member):
-    channel = member.guild.get_channel(945963368441843727)
-    embed = discord.Embed(title="__Départ d'un membre :__", description=f" {member.mention} a quitté le serveur ! Il ne manquera a personne...")
-    embed.set_thumbnail(url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+    channel = member.guild.get_channel(888163341174992970)
+    embed = discord.Embed(title="__Départ d'un membre :__",
+                          description=f" {member.mention} a quitté le serveur ! Il ne manquera a personne...")
+    embed.set_thumbnail(
+        url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
     await channel.send(embed=embed)
 
 
 @bot.command()
 async def repete(ctx, *texte):
     await ctx.send(" ".join(texte))
-""""""
+
+
 @bot.event
 async def on_raw_reaction_remove(payload):
     message_id = payload.message_id
@@ -384,36 +389,63 @@ async def on_raw_reaction_remove(payload):
             await member.remove_roles(role_hors_college)
             embed = discord.Embed(title="From **3e-Serveur**", description="""
             Le role 'Hors-Collège' vous a été retiré !""")
-            embed.set_thumbnail(url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            embed.set_thumbnail(
+                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
             await member.send(embed=embed)
 
         if emoji == "🇪🇸":
             await member.remove_roles(role_espagnol)
             embed = discord.Embed(title="From **3e-Serveur**", description="""
             Le role 'Espagnol' vous a été retiré !""")
-            embed.set_thumbnail(url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            embed.set_thumbnail(
+                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
             await member.send(embed=embed)
 
         if emoji == "🇮🇹":
             await member.remove_roles(role_italien)
             embed = discord.Embed(title="From **3e-Serveur**", description="""
             Le role 'Italien' vous a été retiré !""")
-            embed.set_thumbnail(url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            embed.set_thumbnail(
+                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
             await member.send(embed=embed)
 
         if emoji == "🔤":
             await member.remove_roles(role_latin)
             embed = discord.Embed(title="From **3e-Serveur**", description="""
             Le role 'latin' vous a été retiré !""")
-            embed.set_thumbnail(url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            embed.set_thumbnail(
+                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
             await member.send(embed=embed)
 
         if emoji == "🇬🇷":
             await member.remove_roles(role_grec)
             embed = discord.Embed(title="From **3e-Serveur**", description="""
             Le role 'Grec' vous a été retiré !""")
-            embed.set_thumbnail(url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            embed.set_thumbnail(
+                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
             await member.send(embed=embed)
 
+
+@bot.command()
+async def jaccepte(ctx, user: discord.Member = None):
+    list = (ctx.author.mention, user.mention)
+    list = random.choice(list)
+    embed = discord.Embed(title="",
+                          description=f"**{ctx.author.mention}** a accepté la proposition d'octogone de **{user.mention}**.\n La victoire revient a {list} qui a goumé son advresaire !")
+    embed.set_thumbnail(url="https://i.ytimg.com/vi/tnROsP2MqQE/maxresdefault.jpg")
+    embed.set_image(url="https://c.tenor.com/bwSiTUtbZrMAAAAd/mma-fight.gif")
+    await ctx.send(embed=embed)
+
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Il manque un argument.")
+    elif isinstance(error, commands.MissingPermissions):
+        await ctx.send("Reste a ta place stp ta pas le droit de faire ça !")
+    elif isinstance(error, commands.CheckFailure):
+        await ctx.send("Oups vous ne pouvez iutilisez cette commande.")
+
+        
 token = 'TOKEN'
 bot.run(token)
