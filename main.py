@@ -4,7 +4,9 @@ from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 import os
 import random
-
+from discord.utils import get
+# import keep_alive
+# keep_alive.keep_alive()
 intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix="?", intents=intents, help_command=None)
@@ -78,8 +80,6 @@ async def clear(ctx, nombre: int):
     messages = await ctx.channel.history(limit=nombre + 1).flatten()
     for message in messages:
         await message.delete()
-    await ctx.send(f"{nombre} message ont été supprimé ! ")
-
 
 @bot.command()
 @commands.has_permissions(administrator=True)
@@ -102,7 +102,6 @@ async def classe(ctx):
 @bot.event
 async def on_raw_reaction_add(payload):
     emoji = payload.emoji.name
-    print(emoji)
     member = payload.member
     guild = member.guild
     role_3eA = guild.get_role(888166725177188413)
@@ -212,19 +211,10 @@ async def LV2(ctx):
     await ctx.send(embed=embed)
 
 
-@bot.event
-async def on_raw_reaction_remove(payload):
-    emoji = payload.emoji.name
-    if emoji == "🍔":
-        print("Grade enlevé ")
-
-
 @bot.command()
 async def help(ctx):
     embed = discord.Embed(title="__Commandes du bot : __", description="""
     ?info = donne des informations sur le serveur.
-
-    ?clear <nombre de message> = efface le nombre de message donn.
 
     ?regles = montre les règles du serveur.
 
@@ -236,6 +226,8 @@ async def help(ctx):
     ?ban <@utilisateur> = Ban l'utilisateur (vous pouvez spécifier une raison)
 
     ?unban <@utilisateur> = Debann l'utilisateur
+    
+    ?clear <nombre de message> = efface le nombre de message donné.
 
     ?kick <@utilisateur> = Expulse l'utilisateur (vous pouvez spécifier une raison)
 
@@ -243,7 +235,7 @@ async def help(ctx):
 
     ?tempmute <@utilisateur> = Mute l'utilisateur pour une certaine durée (à spécifier)
     """, inline=False)
-    embed.add_field(name="'__Fun'commandes :__", value="""
+    embed.add_field(name="'__Funcommandes :'__", value="""
     ?wanted <montant de la prime> <@de l'utilisateur> <message qui accompagne la prime>
     ?jaccepte <@ de l'utilisateur> : accepte la demande d'octogone. Le gagnant sera désigné au hasard.
     """)
@@ -270,6 +262,7 @@ async def wanted(ctx, prix, user: discord.Member = None, *message):
     img.paste(pfp, (120, 235))
     img.save("txt.png")
     await ctx.send(file=discord.File('txt.png'))
+    await ctx.message.delete()
     os.remove('txt.png')
 
 
@@ -314,6 +307,8 @@ async def on_member_join(member):
         url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
     channel = member.guild.get_channel(888163341174992970)
     await channel.send(embed=embed)
+    role = get(member.guild.roles, id=931283703299178566)
+    await member.add_roles(role)
 
 
 @bot.event
@@ -447,6 +442,7 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.CheckFailure):
         await ctx.send("Oups vous ne pouvez iutilisez cette commande.")
 
+
 @bot.event
 async def on_voice_state_update(member, before, after):
     if member.guild.id == 888163341174992966:
@@ -466,5 +462,6 @@ async def on_voice_state_update(member, before, after):
             await voice_channel.set_permissions(member, connect=True, speak=True, move_members=True, manage_channels=True, view_channel=True)
 
 
-token = 'TOKEN'
+token = "OTQ1NzMxMTg5NDI2MjQxNTQ2.YhUazg.7HA3u5unZ-UgLlchQwrjS8rqdIU"
 bot.run(token)
+
