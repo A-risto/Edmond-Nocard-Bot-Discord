@@ -462,6 +462,6 @@ async def on_voice_state_update(member, before, after):
             await voice_channel.set_permissions(member, connect=True, speak=True, move_members=True, manage_channels=True, view_channel=True)
 
 
-token = "OTQ1NzMxMTg5NDI2MjQxNTQ2.YhUazg.7HA3u5unZ-UgLlchQwrjS8rqdIU"
+token = 'TOKEN'
 bot.run(token)
 
