@@ -1,16 +1,11 @@
 from discord.ext import commands
-import discord
-from PIL import Image, ImageFont, ImageDraw
-from io import BytesIO
-import os
-import random
+import discord, time, random
 from discord.utils import get
-# import keep_alive
-# keep_alive.keep_alive()
+import keep_alive
+keep_alive.keep_alive()
 intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix="?", intents=intents, help_command=None)
-
 
 @bot.event
 async def on_ready():
@@ -78,8 +73,12 @@ async def kick(ctx, user: discord.User, reason="aucune raison n'a été donné")
 @commands.has_permissions(administrator=True)
 async def clear(ctx, nombre: int):
     messages = await ctx.channel.history(limit=nombre + 1).flatten()
-    for message in messages:
-        await message.delete()
+    if nombre <= 30:
+        for message in messages:
+            await message.delete()
+    else:
+        await ctx.send("Trop de message a supprimer !")
+
 
 @bot.command()
 @commands.has_permissions(administrator=True)
@@ -226,7 +225,7 @@ async def help(ctx):
     ?ban <@utilisateur> = Ban l'utilisateur (vous pouvez spécifier une raison)
 
     ?unban <@utilisateur> = Debann l'utilisateur
-    
+
     ?clear <nombre de message> = efface le nombre de message donné.
 
     ?kick <@utilisateur> = Expulse l'utilisateur (vous pouvez spécifier une raison)
@@ -243,61 +242,11 @@ async def help(ctx):
     await ctx.send(embed=embed)
 
 
-@bot.command()
-async def wanted(ctx, prix, user: discord.Member = None, *message):
-    if message == None:
-        txt = " "
-    else:
-        txt = " ".join(message)
-    img = Image.open('src/Screenshot 2022-02-24 15.19.32 (1).jpg')
-    draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("src/BERNHC.TTF", 30)
-    font_prime = ImageFont.truetype("src/BERNHC.TTF", 60)
-    asset = user.avatar_url_as(size=128)
-    data = BytesIO(await asset.read())
-    pfp = Image.open(data)
-    pfp = pfp.resize((350, 350))
-    draw.text((50, 730), txt, (0, 0, 0), font=font)
-    draw.text((60, 660), ("$" + str(prix)), (0, 0, 0), font=font_prime)
-    img.paste(pfp, (120, 235))
-    img.save("txt.png")
-    await ctx.send(file=discord.File('txt.png'))
-    await ctx.message.delete()
-    os.remove('txt.png')
-
-
-async def getMutedRole(ctx):
-    roles = ctx.guild.roles
-    for role in roles:
-        if role.name == "Muted":
-            return role
-
-
-@bot.command()
-@commands.has_permissions(administrator=True)
-async def mute(ctx, member: discord.Member, *, reason="Aucune raison n'a été renseigné"):
-    mutedRole = await getMutedRole(ctx)
-    await member.add_roles(mutedRole, reason=reason)
-    embed = discord.Embed(title="", description=f"le membre {member.mention} a été mute\n\nRaison : {reason}")
-    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-    embed.set_thumbnail(url="https://media.discordapp.net/attachments/945963368441843727/947233844094988338/stfu.png")
-    await ctx.send(embed=embed)
-
-
-@bot.command()
-@commands.has_permissions(administrator=True)
-async def unmute(ctx, member: discord.Member):
-    mutedRole = await getMutedRole(ctx)
-    await member.remove_roles(mutedRole)
-    embed = discord.Embed(title="", description=f"Le membre {member.mention} a été unmute")
-    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-    await ctx.send(embed=embed)
 
 
 @bot.command()
 async def ping(ctx):
-    await ctx.send("Pong !")
-
+    await ctx.send("https://media3.giphy.com/media/LZ2eNVqxJ7cP8VO90B/200.gif")
 
 @bot.event
 async def on_member_join(member):
@@ -443,5 +392,63 @@ async def on_command_error(ctx, error):
         await ctx.send("Oups vous ne pouvez iutilisez cette commande.")
 
 
+async def getMutedRole(ctx):
+    roles = ctx.guild.roles
+    for role in roles:
+        if role.name == "Muted":
+            return role
+
+
+
+@bot.command()
+@commands.has_permissions(manage_messages=True)
+async def mute(ctx, member: discord.Member, *, reason="Aucune raison n'a été renseigné"):
+    if ctx.author.name == member.display_name:
+        await ctx.send("Vous ne pouvez pas vous mute vous-même ! ")
+    else:
+        mutedRole = await getMutedRole(ctx)
+        await member.add_roles(mutedRole, reason=reason)
+        embed = discord.Embed(title="", description=f"le membre {member.mention} a été mute\n\nRaison : {reason}")
+        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+        embed.set_thumbnail(url="https://media.discordapp.net/attachments/945963368441843727/947233844094988338/stfu.png")
+        await ctx.send(embed=embed)
+
+
+@bot.command()
+async def unmute(ctx, member : discord.Member, *, reason = "Aucune raison n'a été renseigné"):
+    mutedRole = await getMutedRole(ctx)
+    await member.remove_roles(mutedRole, reason = reason)
+    await ctx.send(f"{member.mention} a été unmute !")
+
+
+@bot.command()
+async def jaccepte_random(ctx):
+    a = str(random.choice(ctx.channel.guild.members))
+    a = a.split("#")
+    liste = [a[0], ctx.author.name]
+    choice = random.choice(liste)
+    embed = discord.Embed(title="",
+                          description=f"Cette octogone verra s'affronter ``{ctx.author.name}`` et ``{a[0]}``.\nLa victoire revient a **{choice}** qui a goumé son adversaire !")
+    embed.set_thumbnail(url="https://i.ytimg.com/vi/tnROsP2MqQE/maxresdefault.jpg")
+    embed.set_image(url="https://c.tenor.com/bwSiTUtbZrMAAAAd/mma-fight.gif")
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def pf(ctx):
+    embed = discord.Embed()
+    embed.set_image(url="https://www.cliqueduplateau.com/wordpress/wp-content/uploads/2015/12/flip.gif")
+    msg = await ctx.send(embed=embed)
+    time.sleep(3)
+    await msg.delete()
+    choice = random.choice([True, False])
+    if choice:
+        embed2 = discord.Embed(title=" ", description="C'est **pile** ! ")
+        embed2.set_image(url="https://jaimelesmots.com/wp-content/uploads/2019/10/pile.jpeg")
+        await ctx.send(embed=embed2)
+    else:
+        embed2 = discord.Embed(title=" ", description="C'est **face** ! ")
+        embed2.set_image(url="https://jaimelesmots.com/wp-content/uploads/2019/10/face.jpeg")
+        await ctx.send(embed=embed2)
+      
 token = 'TOKEN'
 bot.run(token)
