@@ -215,7 +215,11 @@ async def help(ctx):
     embed = discord.Embed(title="__Commandes du bot : __", description="""
     ?info = donne des informations sur le serveur.
 
-    ?regles = montre les règles du serveur.
+    ?ping : Pong
+
+    ?repete <message> : Le bot repetera ce que vous lui avez dit.
+
+    ?pf : Pile ou Face.
 
     """, url="https://github.com/A-risto/Edmond-Nocard-Bot-Discord/blob/main/main.py")
     embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
@@ -226,19 +230,17 @@ async def help(ctx):
 
     ?unban <@utilisateur> = Debann l'utilisateur
 
-    ?clear <nombre de message> = efface le nombre de message donné.
+    ?clear <nombre de message> = efface le nombre de message donné (max30)
 
     ?kick <@utilisateur> = Expulse l'utilisateur (vous pouvez spécifier une raison)
 
     ?mute <@utilisateur> = Mute l'utilisateur (vous pouvez spécifier une raison)
-
-    ?tempmute <@utilisateur> = Mute l'utilisateur pour une certaine durée (à spécifier)
-    """, inline=False)
-    embed.add_field(name="'__Funcommandes :'__", value="""
-    ?wanted <montant de la prime> <@de l'utilisateur> <message qui accompagne la prime>
+                    
+      """, inline=False)
+    embed.add_field(name="__Funcommandes :__", value="""
     ?jaccepte <@ de l'utilisateur> : accepte la demande d'octogone. Le gagnant sera désigné au hasard.
+    ?jaccepte_random : Défie une personne au hasard en octogone. Le Gagnant sera désigné au hasard.
     """)
-    embed.set_footer(text="Les prochaines commandes arrivent bientôt tkt")
     await ctx.send(embed=embed)
 
 
@@ -387,7 +389,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send("Il manque un argument.")
     elif isinstance(error, commands.MissingPermissions):
-        await ctx.send("Reste a ta place stp ta pas le droit de faire ça !")
+        await ctx.send("ouais tu fais le fou un peu")
     elif isinstance(error, commands.CheckFailure):
         await ctx.send("Oups vous ne pouvez iutilisez cette commande.")
 
