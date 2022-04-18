@@ -450,5 +450,5 @@ async def pf(ctx):
         embed2.set_image(url="https://jaimelesmots.com/wp-content/uploads/2019/10/face.jpeg")
         await ctx.send(embed=embed2)
       
-token = "OTQ1NzMxMTg5NDI2MjQxNTQ2.YhUazg.K_cztM6JFOQm-nd8oZLLleNVSnM"
+token = "token"
 bot.run(token)
