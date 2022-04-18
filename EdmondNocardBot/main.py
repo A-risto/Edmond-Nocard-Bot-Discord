@@ -401,26 +401,24 @@ async def getMutedRole(ctx):
             return role
 
 
-
 @bot.command()
 @commands.has_permissions(manage_messages=True)
 async def mute(ctx, member: discord.Member, *, reason="Aucune raison n'a été renseigné"):
-    if ctx.author.name == member.display_name:
-        await ctx.send("Vous ne pouvez pas vous mute vous-même ! ")
+    if not member.bot:
+        if ctx.author.name == member.display_name:
+            await ctx.send("Vous ne pouvez pas vous mute vous-même ! ")
+        else:
+            if member.top_role >= ctx.author.top_role:
+                await ctx.send("Vous ne pouvez pas mute une personne égale ou supérieure à vous !")
+            else:
+                mutedRole = await getMutedRole(ctx)
+                await member.add_roles(mutedRole, reason=reason)
+                embed = discord.Embed(title="", description=f"le membre {member.mention} a été mute\n\nRaison : {reason}")
+                embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+                embed.set_thumbnail(url="https://media.discordapp.net/attachments/945963368441843727/947233844094988338/stfu.png")
+                await ctx.send(embed=embed)
     else:
-        mutedRole = await getMutedRole(ctx)
-        await member.add_roles(mutedRole, reason=reason)
-        embed = discord.Embed(title="", description=f"le membre {member.mention} a été mute\n\nRaison : {reason}")
-        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-        embed.set_thumbnail(url="https://media.discordapp.net/attachments/945963368441843727/947233844094988338/stfu.png")
-        await ctx.send(embed=embed)
-
-
-@bot.command()
-async def unmute(ctx, member : discord.Member, *, reason = "Aucune raison n'a été renseigné"):
-    mutedRole = await getMutedRole(ctx)
-    await member.remove_roles(mutedRole, reason = reason)
-    await ctx.send(f"{member.mention} a été unmute !")
+        await ctx.send("Pk tu veux mute un bot ?")
 
 
 @bot.command()
@@ -452,5 +450,5 @@ async def pf(ctx):
         embed2.set_image(url="https://jaimelesmots.com/wp-content/uploads/2019/10/face.jpeg")
         await ctx.send(embed=embed2)
       
-token = 'TOKEN'
+token = "OTQ1NzMxMTg5NDI2MjQxNTQ2.YhUazg.K_cztM6JFOQm-nd8oZLLleNVSnM"
 bot.run(token)
