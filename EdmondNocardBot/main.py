@@ -10,7 +10,7 @@ bot = commands.Bot(command_prefix="?", intents=intents, help_command=None)
 @bot.event
 async def on_ready():
     print("Bot prêt...")
-    await bot.change_presence(activity=discord.Game("?help"))
+    await bot.change_presence(activity=discord.Game("regarde ma bio^^"))
 
 
 @bot.command()
@@ -70,7 +70,7 @@ async def kick(ctx, user: discord.User, reason="aucune raison n'a été donné")
 
 
 @bot.command()
-@commands.has_permissions(administrator=True)
+@commands.has_permissions(manage_messages=True)
 async def clear(ctx, nombre: int):
     messages = await ctx.channel.history(limit=nombre + 1).flatten()
     if nombre <= 30:
@@ -116,80 +116,82 @@ async def on_raw_reaction_add(payload):
     channel = payload.channel_id
     if emoji == "🇦" and message == 945968620935192607 and channel == 888414703754297375:
         await member.add_roles(role_3eA)
-        embed = discord.Embed(title="From **3e-Serveur**", description="""
-               Le rôle 3eA vous a été ajouté !
+        embed = discord.Embed(title="From **3e - Serveur**", description="""
+               Le rôle ``3eA`` vous a été ajouté !
                """)
         embed.set_thumbnail(
-            url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            url="https://pep-ak-47.000webhostapp.com/pp.gif")
         await member.send(embed=embed)
 
     if emoji == "🇨" and message == 945968620935192607 and channel == 888414703754297375:
         await member.add_roles(role_3eC)
-        embed = discord.Embed(title="From **3e-Serveur**", description="""
-               Le rôle 3eC vous a été ajouté !
+        embed = discord.Embed(title="From **3e -S erveur**", description="""
+               Le rôle ``3eC`` vous a été ajouté !
                """)
         embed.set_thumbnail(
-            url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            url="https://pep-ak-47.000webhostapp.com/pp.gif")
         await member.send(embed=embed)
+      
     if emoji == "🇩" and message == 945968620935192607 and channel == 888414703754297375:
         await member.add_roles(role_3eD)
-        embed = discord.Embed(title="From **3e-Serveur**", description="""
-               Le rôle 3eD vous a été ajouté !
+        embed = discord.Embed(title="From **3e - Serveur**", description="""
+               Le rôle ``3eD`` vous a été ajouté !
                """)
+        embed.set_thumbnail(url="https://pep-ak-47.000webhostapp.com/pp.gif")
         await member.send(embed=embed)
 
     if emoji == "🇧" and message == 945968620935192607 and channel == 888414703754297375:
         await member.add_roles(role_3eB)
-        embed = discord.Embed(title="From **3e-Serveur**", description="""
-               Le rôle 3eB vous a été ajouté !
+        embed = discord.Embed(title="From **3e - Serveur**", description="""
+               Le rôle ``3eB`` vous a été ajouté !
                """)
         embed.set_thumbnail(
-            url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            url="https://pep-ak-47.000webhostapp.com/pp.gif")
         await member.send(embed=embed)
 
     if emoji == "❎" and message == 945968620935192607 and channel == 888414703754297375:
         await member.add_roles(hors_college)
-        embed = discord.Embed(title="From **3e-Serveur**", description="""
-               Le rôle 'Hors-collège' vous a été ajouté !
+        embed = discord.Embed(title="From **3e - Serveur**", description="""
+               Le rôle ``Hors-collège`` vous a été ajouté !
                """)
         embed.set_thumbnail(
-            url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            url="https://pep-ak-47.000webhostapp.com/pp.gif")
         await member.send(embed=embed)
 
     if emoji == "🇪🇸" and channel == 888414703754297375:
         await member.add_roles(role_espagnol)
-        embed = discord.Embed(title="From **3e-Serveur**", description="""
-                       Le rôle 'Espagnol' vous a été ajouté !
+        embed = discord.Embed(title="From **3e - Serveur**", description="""
+                       Le rôle ``Espagnol`` vous a été ajouté !
                        """)
         embed.set_thumbnail(
-            url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            url="https://pep-ak-47.000webhostapp.com/pp.gif")
         await member.send(embed=embed)
 
     if emoji == "🇮🇹" and channel == 888414703754297375:
         await member.add_roles(role_italien)
-        embed = discord.Embed(title="From **3e-Serveur**", description="""
-                               Le rôle 'italien' vous a été ajouté !
+        embed = discord.Embed(title="From **3e - Serveur**", description="""
+                               Le rôle ``italien`` vous a été ajouté !
                                """)
         embed.set_thumbnail(
-            url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            url="https://pep-ak-47.000webhostapp.com/pp.gif")
         await member.send(embed=embed)
 
     if emoji == "🔤" and channel == 888414703754297375:
         await member.add_roles(role_latin)
-        embed = discord.Embed(title="From **3e-Serveur**", description="""
-                                       Le rôle 'latin' vous a été ajouté !
+        embed = discord.Embed(title="From **3e - Serveur**", description="""
+                                       Le rôle ``latin`` vous a été ajouté !
                                        """)
         embed.set_thumbnail(
-            url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            url="https://pep-ak-47.000webhostapp.com/pp.gif")
         await member.send(embed=embed)
 
     if emoji == "🇬🇷" and channel == 888414703754297375:
         await member.add_roles(role_grec)
-        embed = discord.Embed(title="From **3e-Serveur**", description="""
-                                               Le rôle 'grec' vous a été ajouté !
+        embed = discord.Embed(title="From **3e - Serveur**", description="""
+                                               Le rôle ``grec`` vous a été ajouté !
                                                """)
         embed.set_thumbnail(
-            url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+            url="https://pep-ak-47.000webhostapp.com/pp.gif")
         await member.send(embed=embed)
 
 
@@ -298,80 +300,84 @@ async def on_raw_reaction_remove(payload):
 
         if emoji == "🇦":
             await member.remove_roles(role_3eA)
-            embed = discord.Embed(title="From **3e-Serveur**", description="""
-                   Le rôle 3eA vous a été retiré !
+            embed = discord.Embed(title="From **3e - Serveur**", description="""
+                   Le rôle ``3eA`` vous a été retiré !
                    """)
             embed.set_thumbnail(
-                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+                url="https://pep-ak-47.000webhostapp.com/pp.gif")
             await member.send(embed=embed)
 
         if emoji == "🇧":
             await member.remove_roles(role_3eB)
-            embed = discord.Embed(title="From **3e-Serveur**", description="""
-                       Le rôle 3eB vous a été retiré !
-                       """)
+            embed = discord.Embed(title="From **3e - Serveur**", description="""
+                   Le rôle ``3eB`` vous a été retiré !
+                   """)
             embed.set_thumbnail(
-                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+                url="https://pep-ak-47.000webhostapp.com/pp.gif")
             await member.send(embed=embed)
 
         if emoji == "🇩":
             await member.remove_roles(role_3eD)
-            embed = discord.Embed(title="From **3e-Serveur**", description="""
-                       Le rôle 3eD vous a été ajouté !
-                       """)
+            embed = discord.Embed(title="From **3e - Serveur**", description="""
+                   Le rôle ``3eD`` vous a été retiré !
+                   """)
             embed.set_thumbnail(
-                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+                url="https://pep-ak-47.000webhostapp.com/pp.gif")
             await member.send(embed=embed)
 
         if emoji == "🇨":
             await member.remove_roles(role_3eC)
-            embed = discord.Embed(title="From **3e-Serveur**", description="""
-                                                   Le rôle '3eC' vous a été retiré !
-                                                   """)
+            embed = discord.Embed(title="From **3e - Serveur**", description="""
+                   Le rôle ``3eC`` vous a été retiré !
+                   """)
             embed.set_thumbnail(
-                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+                url="https://pep-ak-47.000webhostapp.com/pp.gif")
             await member.send(embed=embed)
 
         if emoji == "❎":
             await member.remove_roles(role_hors_college)
-            embed = discord.Embed(title="From **3e-Serveur**", description="""
-            Le role 'Hors-Collège' vous a été retiré !""")
+            embed = discord.Embed(title="From **3e - Serveur**", description="""
+                   Le rôle ``Hors-Collège`` vous a été retiré !
+                   """)
             embed.set_thumbnail(
-                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+                url="https://pep-ak-47.000webhostapp.com/pp.gif")
             await member.send(embed=embed)
 
         if emoji == "🇪🇸":
             await member.remove_roles(role_espagnol)
-            embed = discord.Embed(title="From **3e-Serveur**", description="""
-            Le role 'Espagnol' vous a été retiré !""")
+            embed = discord.Embed(title="From **3e - Serveur**", description="""
+                   Le rôle ``Espagnol`` vous a été retiré !
+                   """)
             embed.set_thumbnail(
-                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+                url="https://pep-ak-47.000webhostapp.com/pp.gif")
             await member.send(embed=embed)
 
         if emoji == "🇮🇹":
             await member.remove_roles(role_italien)
-            embed = discord.Embed(title="From **3e-Serveur**", description="""
-            Le role 'Italien' vous a été retiré !""")
+            embed = discord.Embed(title="From **3e - Serveur**", description="""
+                   Le rôle ``Italien`` vous a été retiré !
+                   """)
             embed.set_thumbnail(
-                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+                url="https://pep-ak-47.000webhostapp.com/pp.gif")
             await member.send(embed=embed)
 
         if emoji == "🔤":
             await member.remove_roles(role_latin)
-            embed = discord.Embed(title="From **3e-Serveur**", description="""
-            Le role 'latin' vous a été retiré !""")
+            embed = discord.Embed(title="From **3e - Serveur**", description="""
+                   Le rôle ``Latin`` vous a été retiré !
+                   """)
             embed.set_thumbnail(
-                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+                url="https://pep-ak-47.000webhostapp.com/pp.gif")
             await member.send(embed=embed)
 
         if emoji == "🇬🇷":
             await member.remove_roles(role_grec)
-            embed = discord.Embed(title="From **3e-Serveur**", description="""
-            Le role 'Grec' vous a été retiré !""")
+            embed = discord.Embed(title="From **3e - Serveur**", description="""
+                   Le rôle ``Grec`` vous a été retiré !
+                   """)
             embed.set_thumbnail(
-                url="https://www.leparisien.fr/resizer/TJlbwM0ThlMmkTRk0SsUwMLDSf8=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/XIRP55G6MRR5VOFC3BQLEGZ6BA.jpg")
+                url="https://pep-ak-47.000webhostapp.com/pp.gif")
             await member.send(embed=embed)
-
 
 @bot.command()
 async def jaccepte(ctx, user: discord.Member = None):
@@ -420,7 +426,6 @@ async def mute(ctx, member: discord.Member, *, reason="Aucune raison n'a été r
     else:
         await ctx.send("Pk tu veux mute un bot ?")
 
-
 @bot.command()
 async def jaccepte_random(ctx):
     a = str(random.choice(ctx.channel.guild.members))
@@ -432,7 +437,7 @@ async def jaccepte_random(ctx):
     embed.set_thumbnail(url="https://i.ytimg.com/vi/tnROsP2MqQE/maxresdefault.jpg")
     embed.set_image(url="https://c.tenor.com/bwSiTUtbZrMAAAAd/mma-fight.gif")
     await ctx.send(embed=embed)
-
+  
 @bot.command()
 async def pf(ctx):
     embed = discord.Embed()
@@ -449,6 +454,12 @@ async def pf(ctx):
         embed2 = discord.Embed(title=" ", description="C'est **face** ! ")
         embed2.set_image(url="https://jaimelesmots.com/wp-content/uploads/2019/10/face.jpeg")
         await ctx.send(embed=embed2)
-      
-token = "token"
+
+@bot.command()
+async def unmute(ctx, member : discord.Member, *, reason = "Aucune raison n'a été renseigné"):
+    mutedRole = await getMutedRole(ctx)
+    await member.remove_roles(mutedRole, reason = reason)
+    await ctx.send(f"{member.mention} a été unmute !")
+
+token ="SECRET_TOKEN"
 bot.run(token)
